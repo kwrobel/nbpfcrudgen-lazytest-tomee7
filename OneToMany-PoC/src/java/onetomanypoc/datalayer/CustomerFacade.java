@@ -5,6 +5,7 @@
  */
 package onetomanypoc.datalayer;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,6 +14,7 @@ import onetomanypoc.entity.Customer_;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import onetomanypoc.entity.PurchaseOrder;
 
 /**
  *
@@ -39,6 +41,11 @@ public class CustomerFacade extends AbstractFacade<Customer> {
         Root<Customer> customer = cq.from(Customer.class);
         cq.select(cb.literal(1L)).distinct(true).where(cb.equal(customer, entity), cb.isNotEmpty(customer.get(Customer_.purchaseOrderList)));
         return em.createQuery(cq).getResultList().isEmpty();
+    }
+    
+    public List<PurchaseOrder> findPurchaseOrderList(Customer entity) {
+        Customer mergedEntity = em.merge(entity);
+        return mergedEntity.getPurchaseOrderList();
     }
     
 }

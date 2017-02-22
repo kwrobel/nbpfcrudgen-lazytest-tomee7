@@ -48,10 +48,10 @@ public class CustomerController extends AbstractController<Customer> {
      * @return navigation outcome for PurchaseOrder page
      */
     public String navigatePurchaseOrderList() {
-        Customer attachedSelected = this.getAttachedSelected();
-
-        if (attachedSelected != null) {
-            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("PurchaseOrder_items", this.getAttachedSelected().getPurchaseOrderList());
+        Customer selected = this.getSelected();
+        if (selected != null) {
+            CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("PurchaseOrder_items", ejbFacade.findPurchaseOrderList(selected));
         }
         return "/app/purchaseOrder/index";
     }
