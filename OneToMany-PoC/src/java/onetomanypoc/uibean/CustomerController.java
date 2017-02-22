@@ -50,10 +50,10 @@ public class CustomerController extends AbstractController<Customer> {
      */
     @Transactional
     public String navigatePurchaseOrderList() {
-        Customer selected = this.getAttachedSelected();
+        Customer attachedSelected = this.getAttachedSelected();
 
-        if (selected != null) {
-            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("PurchaseOrder_items", selected.getPurchaseOrderList());
+        if (attachedSelected != null) {
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("PurchaseOrder_items", attachedSelected.getPurchaseOrderList());
         }
         return "/app/purchaseOrder/index";
     }
