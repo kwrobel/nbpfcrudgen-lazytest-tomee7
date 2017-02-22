@@ -1,5 +1,6 @@
 package onetomanypoc.uibean;
 
+import java.util.List;
 import onetomanypoc.entity.Customer;
 import onetomanypoc.datalayer.CustomerFacade;
 import javax.inject.Named;
@@ -7,6 +8,8 @@ import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
+import onetomanypoc.entity.PurchaseOrder;
 
 @Named(value = "customerController")
 @ViewScoped
@@ -47,11 +50,12 @@ public class CustomerController extends AbstractController<Customer> {
      *
      * @return navigation outcome for PurchaseOrder page
      */
+    @Transactional
     public String navigatePurchaseOrderList() {
-        Customer selected = this.getSelected();
+        Customer selected = this.getAttachedSelected();
+
         if (selected != null) {
-            CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
-            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("PurchaseOrder_items", ejbFacade.findPurchaseOrderList(selected));
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("PurchaseOrder_items", selected.getPurchaseOrderList());
         }
         return "/app/purchaseOrder/index";
     }
