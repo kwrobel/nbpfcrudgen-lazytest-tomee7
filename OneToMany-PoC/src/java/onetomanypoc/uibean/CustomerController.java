@@ -1,6 +1,5 @@
 package onetomanypoc.uibean;
 
-import java.util.List;
 import onetomanypoc.entity.Customer;
 import onetomanypoc.datalayer.CustomerFacade;
 import javax.inject.Named;
@@ -9,7 +8,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import onetomanypoc.entity.PurchaseOrder;
 
 @Named(value = "customerController")
 @ViewScoped
