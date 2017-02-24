@@ -35,8 +35,12 @@ public class CustomerController extends AbstractController<Customer> {
     public DiscountCode getDiscountCode() {
         Customer selected = this.getSelected();
         if (selected != null) {
-            CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
-            return ejbFacade.findDiscountCode(selected);
+            if (selected.getDiscountCode() == null) {
+                CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
+                return ejbFacade.findDiscountCode(selected);
+            } else {
+                return selected.getDiscountCode();
+            }
         } else {
             return null;
         }
@@ -45,13 +49,17 @@ public class CustomerController extends AbstractController<Customer> {
     public MicroMarket getZip() {
         Customer selected = this.getSelected();
         if (selected != null) {
-            CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
-            return ejbFacade.findZip(selected);
+            if (selected.getZip() == null) {
+                CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
+                return ejbFacade.findZip(selected);
+            } else {
+                return selected.getZip();
+            }
         } else {
             return null;
         }
     }
-    
+
     public boolean getIsPurchaseOrderListEmpty() {
         Customer selected = this.getSelected();
         if (selected != null) {
