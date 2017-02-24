@@ -7,6 +7,8 @@ import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import onetomanypoc.entity.DiscountCode;
+import onetomanypoc.entity.MicroMarket;
 
 @Named(value = "customerController")
 @ViewScoped
@@ -30,6 +32,26 @@ public class CustomerController extends AbstractController<Customer> {
         zipController.setSelected(null);
     }
 
+    public DiscountCode getDiscountCode() {
+        Customer selected = this.getSelected();
+        if (selected != null) {
+            CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
+            return ejbFacade.findDiscountCode(selected);
+        } else {
+            return null;
+        }
+    }
+
+    public MicroMarket getZip() {
+        Customer selected = this.getSelected();
+        if (selected != null) {
+            CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
+            return ejbFacade.findZip(selected);
+        } else {
+            return null;
+        }
+    }
+    
     public boolean getIsPurchaseOrderListEmpty() {
         Customer selected = this.getSelected();
         if (selected != null) {

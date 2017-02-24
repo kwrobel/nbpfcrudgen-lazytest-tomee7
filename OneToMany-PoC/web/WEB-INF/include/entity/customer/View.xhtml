@@ -46,10 +46,10 @@
                         <h:outputText value="#{customerController.selected.creditLimit}" title="#{myBundle.ViewCustomerTitle_creditLimit}"/>
 
                         <h:outputText value="#{myBundle.ViewCustomerLabel_discountCode}"/>
-                        <h:outputText value="#{customerController.selected.discountCode.discountCode}"/>
+                        <h:outputText value="#{customerController.discountCode.discountCode}"/>
 
                         <h:outputText value="#{myBundle.ViewCustomerLabel_zip}"/>
-                        <h:outputText value="#{customerController.selected.zip.zipCode}"/>
+                        <h:outputText value="#{customerController.zip.zipCode}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{myBundle.Close}" onclick="PF('CustomerViewDialog').hide()"/>
                 </h:panelGroup>
