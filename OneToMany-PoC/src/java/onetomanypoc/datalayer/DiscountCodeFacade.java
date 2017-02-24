@@ -5,6 +5,7 @@
  */
 package onetomanypoc.datalayer;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,6 +14,7 @@ import onetomanypoc.entity.DiscountCode_;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import onetomanypoc.entity.Customer;
 
 /**
  *
@@ -39,6 +41,10 @@ public class DiscountCodeFacade extends AbstractFacade<DiscountCode> {
         Root<DiscountCode> discountCode = cq.from(DiscountCode.class);
         cq.select(cb.literal(1L)).distinct(true).where(cb.equal(discountCode, entity), cb.isNotEmpty(discountCode.get(DiscountCode_.customerList)));
         return em.createQuery(cq).getResultList().isEmpty();
+    }
+
+    public List<Customer> findCustomerList(DiscountCode entity) {
+        return this.getMergedEntity(entity).getCustomerList();
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package onetomanypoc.datalayer;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,6 +14,9 @@ import onetomanypoc.entity.Product_;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import onetomanypoc.entity.PurchaseOrder;
+import onetomanypoc.entity.Manufacturer;
+import onetomanypoc.entity.ProductCode;
 
 /**
  *
@@ -39,6 +43,34 @@ public class ProductFacade extends AbstractFacade<Product> {
         Root<Product> product = cq.from(Product.class);
         cq.select(cb.literal(1L)).distinct(true).where(cb.equal(product, entity), cb.isNotEmpty(product.get(Product_.purchaseOrderList)));
         return em.createQuery(cq).getResultList().isEmpty();
+    }
+
+    public List<PurchaseOrder> findPurchaseOrderList(Product entity) {
+        return this.getMergedEntity(entity).getPurchaseOrderList();
+    }
+
+    public boolean isManufacturerIdEmpty(Product entity) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Product> product = cq.from(Product.class);
+        cq.select(cb.literal(1L)).distinct(true).where(cb.equal(product, entity), cb.isNotNull(product.get(Product_.manufacturerId)));
+        return em.createQuery(cq).getResultList().isEmpty();
+    }
+
+    public Manufacturer findManufacturerId(Product entity) {
+        return this.getMergedEntity(entity).getManufacturerId();
+    }
+
+    public boolean isProductCodeEmpty(Product entity) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Product> product = cq.from(Product.class);
+        cq.select(cb.literal(1L)).distinct(true).where(cb.equal(product, entity), cb.isNotNull(product.get(Product_.productCode)));
+        return em.createQuery(cq).getResultList().isEmpty();
+    }
+
+    public ProductCode findProductCode(Product entity) {
+        return this.getMergedEntity(entity).getProductCode();
     }
     
 }

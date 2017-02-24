@@ -16,8 +16,8 @@
                 <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('ProductListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
                 <p:menuitem value="#{myBundle.ProductMenuItem_purchaseOrderList}" icon="ui-icon-search"  action="#{productController.navigatePurchaseOrderList}" disabled="#{productController.isPurchaseOrderListEmpty}" ajax="false"/>  
-                <p:menuitem value="#{myBundle.ProductMenuItem_manufacturerId}" icon="ui-icon-search"  actionListener="#{productController.prepareManufacturerId}" update=":ManufacturerViewForm" oncomplete="PF('ManufacturerViewDialog').show()" disabled="#{empty productController.selected.manufacturerId}"/>  
-                <p:menuitem value="#{myBundle.ProductMenuItem_productCode}" icon="ui-icon-search"  actionListener="#{productController.prepareProductCode}" update=":ProductCodeViewForm" oncomplete="PF('ProductCodeViewDialog').show()" disabled="#{empty productController.selected.productCode}"/>  
+                <p:menuitem value="#{myBundle.ProductMenuItem_manufacturerId}" icon="ui-icon-search"  actionListener="#{productController.prepareManufacturerId}" update=":ManufacturerViewForm" oncomplete="PF('ManufacturerViewDialog').show()" disabled="#{productController.isManufacturerIdEmpty}"/>  
+                <p:menuitem value="#{myBundle.ProductMenuItem_productCode}" icon="ui-icon-search"  actionListener="#{productController.prepareProductCode}" update=":ProductCodeViewForm" oncomplete="PF('ProductCodeViewDialog').show()" disabled="#{productController.isProductCodeEmpty}"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{productController.items}"

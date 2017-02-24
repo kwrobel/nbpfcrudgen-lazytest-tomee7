@@ -16,8 +16,8 @@
                 <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('CustomerListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
                 <p:menuitem value="#{myBundle.CustomerMenuItem_purchaseOrderList}" icon="ui-icon-search"  action="#{customerController.navigatePurchaseOrderList}" disabled="#{customerController.isPurchaseOrderListEmpty}" ajax="false"/>  
-                <p:menuitem value="#{myBundle.CustomerMenuItem_discountCode}" icon="ui-icon-search"  actionListener="#{customerController.prepareDiscountCode}" update=":DiscountCodeViewForm" oncomplete="PF('DiscountCodeViewDialog').show()" disabled="#{empty customerController.selected.discountCode}"/>  
-                <p:menuitem value="#{myBundle.CustomerMenuItem_zip}" icon="ui-icon-search"  actionListener="#{customerController.prepareZip}" update=":MicroMarketViewForm" oncomplete="PF('MicroMarketViewDialog').show()" disabled="#{empty customerController.selected.zip}"/>  
+                <p:menuitem value="#{myBundle.CustomerMenuItem_discountCode}" icon="ui-icon-search"  actionListener="#{customerController.prepareDiscountCode}" update=":DiscountCodeViewForm" oncomplete="PF('DiscountCodeViewDialog').show()" disabled="#{customerController.isDiscountCodeEmpty}"/>  
+                <p:menuitem value="#{myBundle.CustomerMenuItem_zip}" icon="ui-icon-search"  actionListener="#{customerController.prepareZip}" update=":MicroMarketViewForm" oncomplete="PF('MicroMarketViewDialog').show()" disabled="#{customerController.isZipEmpty}"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{customerController.items}"

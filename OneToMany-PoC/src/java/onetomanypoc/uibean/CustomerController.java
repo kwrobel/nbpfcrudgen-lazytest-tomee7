@@ -7,7 +7,6 @@ import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 
 @Named(value = "customerController")
 @ViewScoped
@@ -32,12 +31,12 @@ public class CustomerController extends AbstractController<Customer> {
     }
 
     public boolean getIsPurchaseOrderListEmpty() {
-        CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
-        Customer entity = this.getSelected();
-        if (entity != null) {
-            return ejbFacade.isPurchaseOrderListEmpty(entity);
+        Customer selected = this.getSelected();
+        if (selected != null) {
+            CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
+            return ejbFacade.isPurchaseOrderListEmpty(selected);
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -48,14 +47,24 @@ public class CustomerController extends AbstractController<Customer> {
      *
      * @return navigation outcome for PurchaseOrder page
      */
-    @Transactional
     public String navigatePurchaseOrderList() {
-        Customer attachedSelected = this.getAttachedSelected();
+        Customer selected = this.getSelected();
 
-        if (attachedSelected != null) {
-            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("PurchaseOrder_items", attachedSelected.getPurchaseOrderList());
+        if (selected != null) {
+            CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("PurchaseOrder_items", ejbFacade.findPurchaseOrderList(selected));
         }
         return "/app/purchaseOrder/index";
+    }
+
+    public boolean getIsDiscountCodeEmpty() {
+        Customer selected = this.getSelected();
+        if (selected != null) {
+            CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
+            return ejbFacade.isDiscountCodeEmpty(selected);
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -65,8 +74,20 @@ public class CustomerController extends AbstractController<Customer> {
      * @param event Event object for the widget that triggered an action
      */
     public void prepareDiscountCode(ActionEvent event) {
-        if (this.getSelected() != null && discountCodeController.getSelected() == null) {
-            discountCodeController.setSelected(this.getSelected().getDiscountCode());
+        Customer selected = this.getSelected();
+        if (selected != null && discountCodeController.getSelected() == null) {
+            CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
+            discountCodeController.setSelected(ejbFacade.findDiscountCode(selected));
+        }
+    }
+
+    public boolean getIsZipEmpty() {
+        Customer selected = this.getSelected();
+        if (selected != null) {
+            CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
+            return ejbFacade.isZipEmpty(selected);
+        } else {
+            return true;
         }
     }
 
@@ -77,8 +98,11 @@ public class CustomerController extends AbstractController<Customer> {
      * @param event Event object for the widget that triggered an action
      */
     public void prepareZip(ActionEvent event) {
-        if (this.getSelected() != null && zipController.getSelected() == null) {
-            zipController.setSelected(this.getSelected().getZip());
+        Customer selected = this.getSelected();
+        if (selected != null && zipController.getSelected() == null) {
+            CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
+            zipController.setSelected(ejbFacade.findZip(selected));
         }
     }
+
 }

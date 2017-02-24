@@ -17,12 +17,12 @@ public class ManufacturerController extends AbstractController<Manufacturer> {
     }
 
     public boolean getIsProductListEmpty() {
-        ManufacturerFacade ejbFacade = (ManufacturerFacade) this.getFacade();
-        Manufacturer entity = this.getSelected();
-        if (entity != null) {
-            return ejbFacade.isProductListEmpty(entity);
+        Manufacturer selected = this.getSelected();
+        if (selected != null) {
+            ManufacturerFacade ejbFacade = (ManufacturerFacade) this.getFacade();
+            return ejbFacade.isProductListEmpty(selected);
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -33,10 +33,11 @@ public class ManufacturerController extends AbstractController<Manufacturer> {
      * @return navigation outcome for Product page
      */
     public String navigateProductList() {
-        Manufacturer attachedSelected = this.getAttachedSelected();
+        Manufacturer selected = this.getSelected();
 
-        if (attachedSelected != null) {
-            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Product_items", this.getAttachedSelected().getProductList());
+        if (selected != null) {
+            ManufacturerFacade ejbFacade = (ManufacturerFacade) this.getFacade();
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Product_items", ejbFacade.findProductList(selected));
         }
         return "/app/product/index";
     }

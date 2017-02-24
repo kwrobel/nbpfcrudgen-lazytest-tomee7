@@ -31,12 +31,12 @@ public class ProductController extends AbstractController<Product> {
     }
 
     public boolean getIsPurchaseOrderListEmpty() {
-        ProductFacade ejbFacade = (ProductFacade) this.getFacade();
-        Product entity = this.getSelected();
-        if (entity != null) {
-            return ejbFacade.isPurchaseOrderListEmpty(entity);
+        Product selected = this.getSelected();
+        if (selected != null) {
+            ProductFacade ejbFacade = (ProductFacade) this.getFacade();
+            return ejbFacade.isPurchaseOrderListEmpty(selected);
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -48,12 +48,23 @@ public class ProductController extends AbstractController<Product> {
      * @return navigation outcome for PurchaseOrder page
      */
     public String navigatePurchaseOrderList() {
-        Product attachedSelected = this.getAttachedSelected();
+        Product selected = this.getSelected();
 
-        if (attachedSelected != null) {
-            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("PurchaseOrder_items", this.getAttachedSelected().getPurchaseOrderList());
+        if (selected != null) {
+            ProductFacade ejbFacade = (ProductFacade) this.getFacade();
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("PurchaseOrder_items", ejbFacade.findPurchaseOrderList(selected));
         }
         return "/app/purchaseOrder/index";
+    }
+
+    public boolean getIsManufacturerIdEmpty() {
+        Product selected = this.getSelected();
+        if (selected != null) {
+            ProductFacade ejbFacade = (ProductFacade) this.getFacade();
+            return ejbFacade.isManufacturerIdEmpty(selected);
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -63,8 +74,20 @@ public class ProductController extends AbstractController<Product> {
      * @param event Event object for the widget that triggered an action
      */
     public void prepareManufacturerId(ActionEvent event) {
-        if (this.getSelected() != null && manufacturerIdController.getSelected() == null) {
-            manufacturerIdController.setSelected(this.getSelected().getManufacturerId());
+        Product selected = this.getSelected();
+        if (selected != null && manufacturerIdController.getSelected() == null) {
+            ProductFacade ejbFacade = (ProductFacade) this.getFacade();
+            manufacturerIdController.setSelected(ejbFacade.findManufacturerId(selected));
+        }
+    }
+
+    public boolean getIsProductCodeEmpty() {
+        Product selected = this.getSelected();
+        if (selected != null) {
+            ProductFacade ejbFacade = (ProductFacade) this.getFacade();
+            return ejbFacade.isProductCodeEmpty(selected);
+        } else {
+            return true;
         }
     }
 
@@ -75,8 +98,11 @@ public class ProductController extends AbstractController<Product> {
      * @param event Event object for the widget that triggered an action
      */
     public void prepareProductCode(ActionEvent event) {
-        if (this.getSelected() != null && productCodeController.getSelected() == null) {
-            productCodeController.setSelected(this.getSelected().getProductCode());
+        Product selected = this.getSelected();
+        if (selected != null && productCodeController.getSelected() == null) {
+            ProductFacade ejbFacade = (ProductFacade) this.getFacade();
+            productCodeController.setSelected(ejbFacade.findProductCode(selected));
         }
     }
+
 }

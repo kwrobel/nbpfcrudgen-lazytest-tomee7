@@ -17,12 +17,12 @@ public class DiscountCodeController extends AbstractController<DiscountCode> {
     }
 
     public boolean getIsCustomerListEmpty() {
-        DiscountCodeFacade ejbFacade = (DiscountCodeFacade) this.getFacade();
-        DiscountCode entity = this.getSelected();
-        if (entity != null) {
-            return ejbFacade.isCustomerListEmpty(entity);
+        DiscountCode selected = this.getSelected();
+        if (selected != null) {
+            DiscountCodeFacade ejbFacade = (DiscountCodeFacade) this.getFacade();
+            return ejbFacade.isCustomerListEmpty(selected);
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -34,10 +34,11 @@ public class DiscountCodeController extends AbstractController<DiscountCode> {
      * @return navigation outcome for Customer page
      */
     public String navigateCustomerList() {
-        DiscountCode attachedSelected = this.getAttachedSelected();
+        DiscountCode selected = this.getSelected();
 
-        if (attachedSelected != null) {
-            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Customer_items", this.getAttachedSelected().getCustomerList());
+        if (selected != null) {
+            DiscountCodeFacade ejbFacade = (DiscountCodeFacade) this.getFacade();
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Customer_items", ejbFacade.findCustomerList(selected));
         }
         return "/app/customer/index";
     }

@@ -17,12 +17,12 @@ public class ProductCodeController extends AbstractController<ProductCode> {
     }
 
     public boolean getIsProductListEmpty() {
-        ProductCodeFacade ejbFacade = (ProductCodeFacade) this.getFacade();
-        ProductCode entity = this.getSelected();
-        if (entity != null) {
-            return ejbFacade.isProductListEmpty(entity);
+        ProductCode selected = this.getSelected();
+        if (selected != null) {
+            ProductCodeFacade ejbFacade = (ProductCodeFacade) this.getFacade();
+            return ejbFacade.isProductListEmpty(selected);
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -33,10 +33,11 @@ public class ProductCodeController extends AbstractController<ProductCode> {
      * @return navigation outcome for Product page
      */
     public String navigateProductList() {
-        ProductCode attachedSelected = this.getAttachedSelected();
+        ProductCode selected = this.getSelected();
 
-        if (attachedSelected != null) {
-            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Product_items", this.getAttachedSelected().getProductList());
+        if (selected != null) {
+            ProductCodeFacade ejbFacade = (ProductCodeFacade) this.getFacade();
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Product_items", ejbFacade.findProductList(selected));
         }
         return "/app/product/index";
     }

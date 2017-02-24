@@ -29,6 +29,16 @@ public class PurchaseOrderController extends AbstractController<PurchaseOrder> {
         productIdController.setSelected(null);
     }
 
+    public boolean getIsCustomerIdEmpty() {
+        PurchaseOrder selected = this.getSelected();
+        if (selected != null) {
+            PurchaseOrderFacade ejbFacade = (PurchaseOrderFacade) this.getFacade();
+            return ejbFacade.isCustomerIdEmpty(selected);
+        } else {
+            return true;
+        }
+    }
+
     /**
      * Sets the "selected" attribute of the Customer controller in order to
      * display its data in its View dialog.
@@ -36,8 +46,20 @@ public class PurchaseOrderController extends AbstractController<PurchaseOrder> {
      * @param event Event object for the widget that triggered an action
      */
     public void prepareCustomerId(ActionEvent event) {
-        if (this.getSelected() != null && customerIdController.getSelected() == null) {
-            customerIdController.setSelected(this.getSelected().getCustomerId());
+        PurchaseOrder selected = this.getSelected();
+        if (selected != null && customerIdController.getSelected() == null) {
+            PurchaseOrderFacade ejbFacade = (PurchaseOrderFacade) this.getFacade();
+            customerIdController.setSelected(ejbFacade.findCustomerId(selected));
+        }
+    }
+
+    public boolean getIsProductIdEmpty() {
+        PurchaseOrder selected = this.getSelected();
+        if (selected != null) {
+            PurchaseOrderFacade ejbFacade = (PurchaseOrderFacade) this.getFacade();
+            return ejbFacade.isProductIdEmpty(selected);
+        } else {
+            return true;
         }
     }
 
@@ -48,8 +70,11 @@ public class PurchaseOrderController extends AbstractController<PurchaseOrder> {
      * @param event Event object for the widget that triggered an action
      */
     public void prepareProductId(ActionEvent event) {
-        if (this.getSelected() != null && productIdController.getSelected() == null) {
-            productIdController.setSelected(this.getSelected().getProductId());
+        PurchaseOrder selected = this.getSelected();
+        if (selected != null && productIdController.getSelected() == null) {
+            PurchaseOrderFacade ejbFacade = (PurchaseOrderFacade) this.getFacade();
+            productIdController.setSelected(ejbFacade.findProductId(selected));
         }
     }
+
 }

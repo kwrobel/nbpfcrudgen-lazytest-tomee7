@@ -5,6 +5,7 @@
  */
 package onetomanypoc.datalayer;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,6 +14,7 @@ import onetomanypoc.entity.MicroMarket_;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import onetomanypoc.entity.Customer;
 
 /**
  *
@@ -39,6 +41,10 @@ public class MicroMarketFacade extends AbstractFacade<MicroMarket> {
         Root<MicroMarket> microMarket = cq.from(MicroMarket.class);
         cq.select(cb.literal(1L)).distinct(true).where(cb.equal(microMarket, entity), cb.isNotEmpty(microMarket.get(MicroMarket_.customerList)));
         return em.createQuery(cq).getResultList().isEmpty();
+    }
+
+    public List<Customer> findCustomerList(MicroMarket entity) {
+        return this.getMergedEntity(entity).getCustomerList();
     }
     
 }

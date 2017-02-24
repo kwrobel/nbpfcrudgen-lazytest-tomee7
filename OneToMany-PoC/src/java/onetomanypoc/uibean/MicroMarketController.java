@@ -17,12 +17,12 @@ public class MicroMarketController extends AbstractController<MicroMarket> {
     }
 
     public boolean getIsCustomerListEmpty() {
-        MicroMarketFacade ejbFacade = (MicroMarketFacade) this.getFacade();
-        MicroMarket entity = this.getSelected();
-        if (entity != null) {
-            return ejbFacade.isCustomerListEmpty(entity);
+        MicroMarket selected = this.getSelected();
+        if (selected != null) {
+            MicroMarketFacade ejbFacade = (MicroMarketFacade) this.getFacade();
+            return ejbFacade.isCustomerListEmpty(selected);
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -34,10 +34,11 @@ public class MicroMarketController extends AbstractController<MicroMarket> {
      * @return navigation outcome for Customer page
      */
     public String navigateCustomerList() {
-        MicroMarket attachedSelected = this.getAttachedSelected();
+        MicroMarket selected = this.getSelected();
 
-        if (attachedSelected != null) {
-            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Customer_items", this.getAttachedSelected().getCustomerList());
+        if (selected != null) {
+            MicroMarketFacade ejbFacade = (MicroMarketFacade) this.getFacade();
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Customer_items", ejbFacade.findCustomerList(selected));
         }
         return "/app/customer/index";
     }

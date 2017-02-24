@@ -5,6 +5,7 @@
  */
 package onetomanypoc.datalayer;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,6 +14,7 @@ import onetomanypoc.entity.ProductCode_;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import onetomanypoc.entity.Product;
 
 /**
  *
@@ -39,6 +41,10 @@ public class ProductCodeFacade extends AbstractFacade<ProductCode> {
         Root<ProductCode> productCode = cq.from(ProductCode.class);
         cq.select(cb.literal(1L)).distinct(true).where(cb.equal(productCode, entity), cb.isNotEmpty(productCode.get(ProductCode_.productList)));
         return em.createQuery(cq).getResultList().isEmpty();
+    }
+
+    public List<Product> findProductList(ProductCode entity) {
+        return this.getMergedEntity(entity).getProductList();
     }
     
 }
