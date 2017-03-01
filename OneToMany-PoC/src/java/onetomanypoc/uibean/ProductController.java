@@ -49,22 +49,11 @@ public class ProductController extends AbstractController<Product> {
      */
     public String navigatePurchaseOrderList() {
         Product selected = this.getSelected();
-
         if (selected != null) {
             ProductFacade ejbFacade = (ProductFacade) this.getFacade();
             FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("PurchaseOrder_items", ejbFacade.findPurchaseOrderList(selected));
         }
         return "/app/purchaseOrder/index";
-    }
-
-    public boolean getIsManufacturerIdEmpty() {
-        Product selected = this.getSelected();
-        if (selected != null) {
-            ProductFacade ejbFacade = (ProductFacade) this.getFacade();
-            return ejbFacade.isManufacturerIdEmpty(selected);
-        } else {
-            return true;
-        }
     }
 
     /**
@@ -76,18 +65,7 @@ public class ProductController extends AbstractController<Product> {
     public void prepareManufacturerId(ActionEvent event) {
         Product selected = this.getSelected();
         if (selected != null && manufacturerIdController.getSelected() == null) {
-            ProductFacade ejbFacade = (ProductFacade) this.getFacade();
-            manufacturerIdController.setSelected(ejbFacade.findManufacturerId(selected));
-        }
-    }
-
-    public boolean getIsProductCodeEmpty() {
-        Product selected = this.getSelected();
-        if (selected != null) {
-            ProductFacade ejbFacade = (ProductFacade) this.getFacade();
-            return ejbFacade.isProductCodeEmpty(selected);
-        } else {
-            return true;
+            manufacturerIdController.setSelected(selected.getManufacturerId());
         }
     }
 
@@ -100,8 +78,7 @@ public class ProductController extends AbstractController<Product> {
     public void prepareProductCode(ActionEvent event) {
         Product selected = this.getSelected();
         if (selected != null && productCodeController.getSelected() == null) {
-            ProductFacade ejbFacade = (ProductFacade) this.getFacade();
-            productCodeController.setSelected(ejbFacade.findProductCode(selected));
+            productCodeController.setSelected(selected.getProductCode());
         }
     }
 

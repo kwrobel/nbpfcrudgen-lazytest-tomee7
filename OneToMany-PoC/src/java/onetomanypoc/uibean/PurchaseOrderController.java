@@ -29,16 +29,6 @@ public class PurchaseOrderController extends AbstractController<PurchaseOrder> {
         productIdController.setSelected(null);
     }
 
-    public boolean getIsCustomerIdEmpty() {
-        PurchaseOrder selected = this.getSelected();
-        if (selected != null) {
-            PurchaseOrderFacade ejbFacade = (PurchaseOrderFacade) this.getFacade();
-            return ejbFacade.isCustomerIdEmpty(selected);
-        } else {
-            return true;
-        }
-    }
-
     /**
      * Sets the "selected" attribute of the Customer controller in order to
      * display its data in its View dialog.
@@ -48,18 +38,7 @@ public class PurchaseOrderController extends AbstractController<PurchaseOrder> {
     public void prepareCustomerId(ActionEvent event) {
         PurchaseOrder selected = this.getSelected();
         if (selected != null && customerIdController.getSelected() == null) {
-            PurchaseOrderFacade ejbFacade = (PurchaseOrderFacade) this.getFacade();
-            customerIdController.setSelected(ejbFacade.findCustomerId(selected));
-        }
-    }
-
-    public boolean getIsProductIdEmpty() {
-        PurchaseOrder selected = this.getSelected();
-        if (selected != null) {
-            PurchaseOrderFacade ejbFacade = (PurchaseOrderFacade) this.getFacade();
-            return ejbFacade.isProductIdEmpty(selected);
-        } else {
-            return true;
+            customerIdController.setSelected(selected.getCustomerId());
         }
     }
 
@@ -72,8 +51,7 @@ public class PurchaseOrderController extends AbstractController<PurchaseOrder> {
     public void prepareProductId(ActionEvent event) {
         PurchaseOrder selected = this.getSelected();
         if (selected != null && productIdController.getSelected() == null) {
-            PurchaseOrderFacade ejbFacade = (PurchaseOrderFacade) this.getFacade();
-            productIdController.setSelected(ejbFacade.findProductId(selected));
+            productIdController.setSelected(selected.getProductId());
         }
     }
 

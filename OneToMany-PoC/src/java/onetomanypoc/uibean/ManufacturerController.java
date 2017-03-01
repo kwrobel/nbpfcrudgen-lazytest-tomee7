@@ -34,7 +34,6 @@ public class ManufacturerController extends AbstractController<Manufacturer> {
      */
     public String navigateProductList() {
         Manufacturer selected = this.getSelected();
-
         if (selected != null) {
             ManufacturerFacade ejbFacade = (ManufacturerFacade) this.getFacade();
             FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Product_items", ejbFacade.findProductList(selected));

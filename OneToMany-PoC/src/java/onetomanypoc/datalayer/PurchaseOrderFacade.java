@@ -58,5 +58,28 @@ public class PurchaseOrderFacade extends AbstractFacade<PurchaseOrder> {
     public Product findProductId(PurchaseOrder entity) {
         return this.getMergedEntity(entity).getProductId();
     }
+
+    @Override
+    public PurchaseOrder initializeParents(PurchaseOrder entity) {
+        PurchaseOrder purchaseOrder = this.getMergedEntity(entity);
+        if (entity.getCustomerId() == null) {
+            purchaseOrder.getCustomerId();
+        }
+        if (entity.getProductId() == null) {
+            purchaseOrder.getProductId();
+        }
+        return purchaseOrder;
+    }
+
+    @Override
+    public PurchaseOrder findWithParents(PurchaseOrder entity) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<PurchaseOrder> cq = cb.createQuery(PurchaseOrder.class);
+        Root<PurchaseOrder> purchaseOrder = cq.from(PurchaseOrder.class);
+        purchaseOrder.fetch(PurchaseOrder_.customerId);
+        purchaseOrder.fetch(PurchaseOrder_.productId);
+        cq.select(purchaseOrder).where(cb.equal(purchaseOrder, entity));
+        return em.createQuery(cq).getSingleResult();
+    }
     
 }

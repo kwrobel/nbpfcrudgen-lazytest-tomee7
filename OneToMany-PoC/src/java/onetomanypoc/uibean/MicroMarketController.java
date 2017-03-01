@@ -35,7 +35,6 @@ public class MicroMarketController extends AbstractController<MicroMarket> {
      */
     public String navigateCustomerList() {
         MicroMarket selected = this.getSelected();
-
         if (selected != null) {
             MicroMarketFacade ejbFacade = (MicroMarketFacade) this.getFacade();
             FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Customer_items", ejbFacade.findCustomerList(selected));

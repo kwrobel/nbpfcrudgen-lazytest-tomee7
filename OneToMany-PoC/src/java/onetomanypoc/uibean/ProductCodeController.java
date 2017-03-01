@@ -34,7 +34,6 @@ public class ProductCodeController extends AbstractController<ProductCode> {
      */
     public String navigateProductList() {
         ProductCode selected = this.getSelected();
-
         if (selected != null) {
             ProductCodeFacade ejbFacade = (ProductCodeFacade) this.getFacade();
             FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Product_items", ejbFacade.findProductList(selected));

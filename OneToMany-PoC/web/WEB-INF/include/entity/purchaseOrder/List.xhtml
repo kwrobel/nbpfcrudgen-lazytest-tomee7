@@ -15,8 +15,8 @@
                 <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('PurchaseOrderListForm:editButton').click();" icon="ui-icon-pencil"/>
                 <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('PurchaseOrderListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
-                <p:menuitem value="#{myBundle.PurchaseOrderMenuItem_customerId}" icon="ui-icon-search"  actionListener="#{purchaseOrderController.prepareCustomerId}" update=":CustomerViewForm" oncomplete="PF('CustomerViewDialog').show()" disabled="#{purchaseOrderController.isCustomerIdEmpty}"/>  
-                <p:menuitem value="#{myBundle.PurchaseOrderMenuItem_productId}" icon="ui-icon-search"  actionListener="#{purchaseOrderController.prepareProductId}" update=":ProductViewForm" oncomplete="PF('ProductViewDialog').show()" disabled="#{purchaseOrderController.isProductIdEmpty}"/>  
+                <p:menuitem value="#{myBundle.PurchaseOrderMenuItem_customerId}" icon="ui-icon-search"  actionListener="#{purchaseOrderController.prepareCustomerId}" update=":CustomerViewForm" oncomplete="PF('CustomerViewDialog').show()" disabled="#{empty purchaseOrderController.selected.customerId}"/>  
+                <p:menuitem value="#{myBundle.PurchaseOrderMenuItem_productId}" icon="ui-icon-search"  actionListener="#{purchaseOrderController.prepareProductId}" update=":ProductViewForm" oncomplete="PF('ProductViewDialog').show()" disabled="#{empty purchaseOrderController.selected.productId}"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{purchaseOrderController.items}"

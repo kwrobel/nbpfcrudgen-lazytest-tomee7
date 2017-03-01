@@ -72,5 +72,28 @@ public class ProductFacade extends AbstractFacade<Product> {
     public ProductCode findProductCode(Product entity) {
         return this.getMergedEntity(entity).getProductCode();
     }
+
+    @Override
+    public Product initializeParents(Product entity) {
+        Product product = this.getMergedEntity(entity);
+        if (entity.getManufacturerId() == null) {
+            product.getManufacturerId();
+        }
+        if (entity.getProductCode() == null) {
+            product.getProductCode();
+        }
+        return product;
+    }
+
+    @Override
+    public Product findWithParents(Product entity) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Product> cq = cb.createQuery(Product.class);
+        Root<Product> product = cq.from(Product.class);
+        product.fetch(Product_.manufacturerId);
+        product.fetch(Product_.productCode);
+        cq.select(product).where(cb.equal(product, entity));
+        return em.createQuery(cq).getSingleResult();
+    }
     
 }

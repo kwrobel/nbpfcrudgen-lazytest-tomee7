@@ -35,7 +35,6 @@ public class DiscountCodeController extends AbstractController<DiscountCode> {
      */
     public String navigateCustomerList() {
         DiscountCode selected = this.getSelected();
-
         if (selected != null) {
             DiscountCodeFacade ejbFacade = (DiscountCodeFacade) this.getFacade();
             FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("Customer_items", ejbFacade.findCustomerList(selected));
