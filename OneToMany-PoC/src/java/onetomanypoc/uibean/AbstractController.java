@@ -62,6 +62,16 @@ public abstract class AbstractController<T> implements Serializable {
     }
 
     /**
+     * Set any isChildEntityEmpty flags, if any children are defined in entity.
+     * This method should be overridden inside specific entity controllers if
+     * the entity has any OneToMany relationships. (see specific controllers for
+     * more detail.
+     *
+     */
+    protected void setChildrenEmptyFlags() {
+    }
+
+    /**
      * Retrieve the currently selected item.
      *
      * @return the currently selected Entity
@@ -76,8 +86,13 @@ public abstract class AbstractController<T> implements Serializable {
      * @param selected the Entity that should be set as selected
      */
     public void setSelected(T selected) {
-        if (this.selected == null || !this.selected.equals(selected)) {
-            this.selected = this.ejbFacade.findWithParents(selected);
+        if (selected != null) {
+            if (this.selected == null || !this.selected.equals(selected)) {
+                this.selected = this.ejbFacade.findWithParents(selected);
+                this.setChildrenEmptyFlags();
+            }
+        } else {
+            this.selected = null;
         }
     }
 

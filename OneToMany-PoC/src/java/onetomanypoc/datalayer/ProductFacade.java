@@ -74,18 +74,6 @@ public class ProductFacade extends AbstractFacade<Product> {
     }
 
     @Override
-    public Product initializeParents(Product entity) {
-        Product product = this.getMergedEntity(entity);
-        if (entity.getManufacturerId() == null) {
-            product.getManufacturerId();
-        }
-        if (entity.getProductCode() == null) {
-            product.getProductCode();
-        }
-        return product;
-    }
-
-    @Override
     public Product findWithParents(Product entity) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> cq = cb.createQuery(Product.class);

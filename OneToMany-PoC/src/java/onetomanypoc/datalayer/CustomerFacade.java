@@ -74,18 +74,6 @@ public class CustomerFacade extends AbstractFacade<Customer> {
     }
 
     @Override
-    public Customer initializeParents(Customer entity) {
-        Customer customer = this.getMergedEntity(entity);
-        if (entity.getDiscountCode() == null) {
-            customer.getDiscountCode();
-        }
-        if (entity.getZip() == null) {
-            customer.getZip();
-        }
-        return customer;
-    }
-
-    @Override
     public Customer findWithParents(Customer entity) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Customer> cq = cb.createQuery(Customer.class);

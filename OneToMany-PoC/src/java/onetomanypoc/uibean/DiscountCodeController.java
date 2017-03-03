@@ -11,18 +11,33 @@ import javax.inject.Inject;
 @ViewScoped
 public class DiscountCodeController extends AbstractController<DiscountCode> {
 
+    // Flags to indicate if child collections are empty
+    private boolean isCustomerListEmpty;
+
     public DiscountCodeController() {
         // Inform the Abstract parent controller of the concrete DiscountCode Entity
         super(DiscountCode.class);
     }
 
+    /**
+     * Set the "is[ChildCollection]Empty" property for OneToMany fields.
+     */
+    @Override
+    protected void setChildrenEmptyFlags() {
+        this.setIsCustomerListEmpty();
+    }
+
     public boolean getIsCustomerListEmpty() {
+        return this.isCustomerListEmpty;
+    }
+
+    private void setIsCustomerListEmpty() {
         DiscountCode selected = this.getSelected();
         if (selected != null) {
             DiscountCodeFacade ejbFacade = (DiscountCodeFacade) this.getFacade();
-            return ejbFacade.isCustomerListEmpty(selected);
+            this.isCustomerListEmpty = ejbFacade.isCustomerListEmpty(selected);
         } else {
-            return true;
+            this.isCustomerListEmpty = true;
         }
     }
 

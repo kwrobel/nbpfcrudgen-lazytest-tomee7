@@ -17,6 +17,9 @@ public class ProductController extends AbstractController<Product> {
     @Inject
     private ProductCodeController productCodeController;
 
+    // Flags to indicate if child collections are empty
+    private boolean isPurchaseOrderListEmpty;
+
     public ProductController() {
         // Inform the Abstract parent controller of the concrete Product Entity
         super(Product.class);
@@ -30,13 +33,25 @@ public class ProductController extends AbstractController<Product> {
         productCodeController.setSelected(null);
     }
 
+    /**
+     * Set the "is[ChildCollection]Empty" property for OneToMany fields.
+     */
+    @Override
+    protected void setChildrenEmptyFlags() {
+        this.setIsPurchaseOrderListEmpty();
+    }
+
     public boolean getIsPurchaseOrderListEmpty() {
+        return this.isPurchaseOrderListEmpty;
+    }
+
+    private void setIsPurchaseOrderListEmpty() {
         Product selected = this.getSelected();
         if (selected != null) {
             ProductFacade ejbFacade = (ProductFacade) this.getFacade();
-            return ejbFacade.isPurchaseOrderListEmpty(selected);
+            this.isPurchaseOrderListEmpty = ejbFacade.isPurchaseOrderListEmpty(selected);
         } else {
-            return true;
+            this.isPurchaseOrderListEmpty = true;
         }
     }
 

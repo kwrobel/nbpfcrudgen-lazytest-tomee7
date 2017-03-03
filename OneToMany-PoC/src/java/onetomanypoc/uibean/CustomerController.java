@@ -17,6 +17,9 @@ public class CustomerController extends AbstractController<Customer> {
     @Inject
     private MicroMarketController zipController;
 
+    // Flags to indicate if child collections are empty
+    private boolean isPurchaseOrderListEmpty;
+
     public CustomerController() {
         // Inform the Abstract parent controller of the concrete Customer Entity
         super(Customer.class);
@@ -30,13 +33,25 @@ public class CustomerController extends AbstractController<Customer> {
         zipController.setSelected(null);
     }
 
+    /**
+     * Set the "is[ChildCollection]Empty" property for OneToMany fields.
+     */
+    @Override
+    protected void setChildrenEmptyFlags() {
+        this.setIsPurchaseOrderListEmpty();
+    }
+
     public boolean getIsPurchaseOrderListEmpty() {
+        return this.isPurchaseOrderListEmpty;
+    }
+
+    private void setIsPurchaseOrderListEmpty() {
         Customer selected = this.getSelected();
         if (selected != null) {
             CustomerFacade ejbFacade = (CustomerFacade) this.getFacade();
-            return ejbFacade.isPurchaseOrderListEmpty(selected);
+            this.isPurchaseOrderListEmpty = ejbFacade.isPurchaseOrderListEmpty(selected);
         } else {
-            return true;
+            this.isPurchaseOrderListEmpty = true;
         }
     }
 

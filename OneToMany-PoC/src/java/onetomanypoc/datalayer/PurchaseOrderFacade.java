@@ -60,18 +60,6 @@ public class PurchaseOrderFacade extends AbstractFacade<PurchaseOrder> {
     }
 
     @Override
-    public PurchaseOrder initializeParents(PurchaseOrder entity) {
-        PurchaseOrder purchaseOrder = this.getMergedEntity(entity);
-        if (entity.getCustomerId() == null) {
-            purchaseOrder.getCustomerId();
-        }
-        if (entity.getProductId() == null) {
-            purchaseOrder.getProductId();
-        }
-        return purchaseOrder;
-    }
-
-    @Override
     public PurchaseOrder findWithParents(PurchaseOrder entity) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<PurchaseOrder> cq = cb.createQuery(PurchaseOrder.class);

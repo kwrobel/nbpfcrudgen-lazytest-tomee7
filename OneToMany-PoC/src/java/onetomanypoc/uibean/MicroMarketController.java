@@ -11,18 +11,33 @@ import javax.inject.Inject;
 @ViewScoped
 public class MicroMarketController extends AbstractController<MicroMarket> {
 
+    // Flags to indicate if child collections are empty
+    private boolean isCustomerListEmpty;
+
     public MicroMarketController() {
         // Inform the Abstract parent controller of the concrete MicroMarket Entity
         super(MicroMarket.class);
     }
 
+    /**
+     * Set the "is[ChildCollection]Empty" property for OneToMany fields.
+     */
+    @Override
+    protected void setChildrenEmptyFlags() {
+        this.setIsCustomerListEmpty();
+    }
+
     public boolean getIsCustomerListEmpty() {
+        return this.isCustomerListEmpty;
+    }
+
+    private void setIsCustomerListEmpty() {
         MicroMarket selected = this.getSelected();
         if (selected != null) {
             MicroMarketFacade ejbFacade = (MicroMarketFacade) this.getFacade();
-            return ejbFacade.isCustomerListEmpty(selected);
+            this.isCustomerListEmpty = ejbFacade.isCustomerListEmpty(selected);
         } else {
-            return true;
+            this.isCustomerListEmpty = true;
         }
     }
 

@@ -11,18 +11,33 @@ import javax.inject.Inject;
 @ViewScoped
 public class ProductCodeController extends AbstractController<ProductCode> {
 
+    // Flags to indicate if child collections are empty
+    private boolean isProductListEmpty;
+
     public ProductCodeController() {
         // Inform the Abstract parent controller of the concrete ProductCode Entity
         super(ProductCode.class);
     }
 
+    /**
+     * Set the "is[ChildCollection]Empty" property for OneToMany fields.
+     */
+    @Override
+    protected void setChildrenEmptyFlags() {
+        this.setIsProductListEmpty();
+    }
+
     public boolean getIsProductListEmpty() {
+        return this.isProductListEmpty;
+    }
+
+    private void setIsProductListEmpty() {
         ProductCode selected = this.getSelected();
         if (selected != null) {
             ProductCodeFacade ejbFacade = (ProductCodeFacade) this.getFacade();
-            return ejbFacade.isProductListEmpty(selected);
+            this.isProductListEmpty = ejbFacade.isProductListEmpty(selected);
         } else {
-            return true;
+            this.isProductListEmpty = true;
         }
     }
 

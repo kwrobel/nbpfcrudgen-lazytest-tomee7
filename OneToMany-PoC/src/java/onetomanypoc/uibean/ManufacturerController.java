@@ -11,18 +11,33 @@ import javax.inject.Inject;
 @ViewScoped
 public class ManufacturerController extends AbstractController<Manufacturer> {
 
+    // Flags to indicate if child collections are empty
+    private boolean isProductListEmpty;
+
     public ManufacturerController() {
         // Inform the Abstract parent controller of the concrete Manufacturer Entity
         super(Manufacturer.class);
     }
 
+    /**
+     * Set the "is[ChildCollection]Empty" property for OneToMany fields.
+     */
+    @Override
+    protected void setChildrenEmptyFlags() {
+        this.setIsProductListEmpty();
+    }
+
     public boolean getIsProductListEmpty() {
+        return this.isProductListEmpty;
+    }
+
+    private void setIsProductListEmpty() {
         Manufacturer selected = this.getSelected();
         if (selected != null) {
             ManufacturerFacade ejbFacade = (ManufacturerFacade) this.getFacade();
-            return ejbFacade.isProductListEmpty(selected);
+            this.isProductListEmpty = ejbFacade.isProductListEmpty(selected);
         } else {
-            return true;
+            this.isProductListEmpty = true;
         }
     }
 
