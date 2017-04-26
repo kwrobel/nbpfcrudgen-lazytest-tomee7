@@ -1,5 +1,6 @@
 .ui-widget {
     font-size: 12px !important;
+    border: none;
 }
 .ui-layout-north {
     z-index:20 !important;

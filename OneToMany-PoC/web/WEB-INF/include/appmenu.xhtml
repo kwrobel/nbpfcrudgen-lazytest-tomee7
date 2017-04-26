@@ -7,20 +7,19 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
-        <h:form id="menuForm">
-            <p:menubar>
-                <p:menuitem value="#{myBundle.Home}" outcome="/index" icon="ui-icon-home"/>
-                <p:submenu label="#{myBundle.Maintenance}">
-                    <p:menuitem value="#{myBundle.CustomerHeading}..." outcome="/app/customer/index" />
-                    <p:menuitem value="#{myBundle.DiscountCodeHeading}..." outcome="/app/discountCode/index" />
-                    <p:menuitem value="#{myBundle.ManufacturerHeading}..." outcome="/app/manufacturer/index" />
-                    <p:menuitem value="#{myBundle.MicroMarketHeading}..." outcome="/app/microMarket/index" />
-                    <p:menuitem value="#{myBundle.ProductHeading}..." outcome="/app/product/index" />
-                    <p:menuitem value="#{myBundle.ProductCodeHeading}..." outcome="/app/productCode/index" />
-                    <p:menuitem value="#{myBundle.PurchaseOrderHeading}..." outcome="/app/purchaseOrder/index" />
-                </p:submenu>
-            </p:menubar>
-        </h:form>
+        <p:accordionPanel id="menuAccordion">
+            <p:tab title="Maintenance">
+                <h:panelGrid border="0" columns="2">
+                    <p:button style="width: 100%;" value="#{myBundle.CustomerHeading}" outcome="/app/customer/index" />
+                    <p:button style="width: 100%;" value="#{myBundle.DiscountCodeHeading}" outcome="/app/discountCode/index" />
+                    <p:button style="width: 100%;" value="#{myBundle.ManufacturerHeading}" outcome="/app/manufacturer/index" />
+                    <p:button style="width: 100%;" value="#{myBundle.MicroMarketHeading}" outcome="/app/microMarket/index" />
+                    <p:button style="width: 100%;" value="#{myBundle.ProductHeading}" outcome="/app/product/index" />
+                    <p:button style="width: 100%;" value="#{myBundle.ProductCodeHeading}" outcome="/app/productCode/index" />
+                    <p:button style="width: 100%;" value="#{myBundle.PurchaseOrderHeading}" outcome="/app/purchaseOrder/index" />
+                </h:panelGrid>
+            </p:tab>
+        </p:accordionPanel>
     </ui:composition>
 
 </html>
