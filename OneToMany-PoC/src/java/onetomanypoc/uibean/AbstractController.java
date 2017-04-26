@@ -36,6 +36,7 @@ public abstract class AbstractController<T> implements Serializable {
     private T selected;
     private Collection<T> items;
     private LazyEntityDataModel<T> lazyItems;
+    private List<T> filteredItems;
 
     private enum PersistAction {
         CREATE,
@@ -160,6 +161,14 @@ public abstract class AbstractController<T> implements Serializable {
         }
     }
 
+    public List<T> getFilteredItems() {
+        return filteredItems;
+    }
+
+    public void setFilteredItems(List<T> filteredItems) {
+        this.filteredItems = filteredItems;
+    }
+
     /**
      * Apply changes to an existing item to the data layer.
      *
@@ -169,6 +178,23 @@ public abstract class AbstractController<T> implements Serializable {
     public void save(ActionEvent event) {
         String msg = ResourceBundle.getBundle("/MyBundle").getString(itemClass.getSimpleName() + "Updated");
         persist(PersistAction.UPDATE, msg);
+
+        if (!isValidationFailed()) {
+
+            // Update the existing entity inside the item list
+            List<T> itemList = refreshItem(this.selected, this.items);
+            // If the original list has changed (it is a new object)
+            if (this.items != itemList) {
+                this.setItems(itemList);
+            }
+
+            // Also refresh the filteredItems list in case the user has filtered the DataTable
+            if (filteredItems != null) {
+                refreshItem(this.selected, this.filteredItems);
+            }
+
+        }
+
     }
 
     /**
@@ -300,4 +326,23 @@ public abstract class AbstractController<T> implements Serializable {
         }
     }
 
+    private List<T> refreshItem(T item, Collection<T> items) {
+        // Use List#set to replace the existing instance of this entity
+        // If items is not a List, convert the Collection to a List
+        List<T> itemList;
+        if (this.items instanceof List) {
+            itemList = (List<T>) items;
+        } else {
+            itemList = new ArrayList<>(items);
+        }
+        int i = itemList.indexOf(item);
+        if (i >= 0) {
+            try {
+                itemList.set(i, item);
+            } catch (UnsupportedOperationException ex) {
+                return refreshItem(item, new ArrayList<>(items));
+            }
+        }
+        return itemList;
+    }
 }

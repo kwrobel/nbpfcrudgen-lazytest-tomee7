@@ -67,7 +67,11 @@ public class PurchaseOrderFacade extends AbstractFacade<PurchaseOrder> {
         purchaseOrder.fetch(PurchaseOrder_.customerId);
         purchaseOrder.fetch(PurchaseOrder_.productId);
         cq.select(purchaseOrder).where(cb.equal(purchaseOrder, entity));
-        return em.createQuery(cq).getSingleResult();
+        try {
+            return em.createQuery(cq).getSingleResult();
+        } catch (Exception e) {
+            return entity;
+        }
     }
     
 }

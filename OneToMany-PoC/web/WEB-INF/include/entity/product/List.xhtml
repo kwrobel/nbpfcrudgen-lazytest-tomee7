@@ -28,7 +28,8 @@
                          rows="10"
                          rowsPerPageTemplate="10,20,30,40,50"
                          selectionMode="single"
-                         selection="#{productController.selected}">
+                         selection="#{productController.selected}"
+                         filteredValue="#{productController.filteredItems}">
                 <!--
                          To enable Lazy Loading, please copy/replace the following lines above,
                          and be sure to replace the word HASH with the # symbol:
@@ -91,22 +92,6 @@
                     <h:outputText value="#{item.description}"/>
                 </p:column>
 
-                <!--
-                                    <p:column sortBy="#{item.manufacturerId.name}" filterBy="#{item.manufacturerId.name}">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{myBundle.ListProductTitle_manufacturerId}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.manufacturerId.name}"/>
-                                    </p:column>
-                -->
-                <!--
-                                    <p:column sortBy="#{item.productCode.description}" filterBy="#{item.productCode.description}">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{myBundle.ListProductTitle_productCode}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.productCode.description}"/>
-                                    </p:column>
-                -->
 
             </p:dataTable>
 

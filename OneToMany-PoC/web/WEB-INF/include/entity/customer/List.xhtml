@@ -28,7 +28,8 @@
                          rows="10"
                          rowsPerPageTemplate="10,20,30,40,50"
                          selectionMode="single"
-                         selection="#{customerController.selected}">
+                         selection="#{customerController.selected}"
+                         filteredValue="#{customerController.filteredItems}">
                 <!--
                          To enable Lazy Loading, please copy/replace the following lines above,
                          and be sure to replace the word HASH with the # symbol:
@@ -91,54 +92,38 @@
                     <h:outputText value="#{item.state}"/>
                 </p:column>
 
-                <!--
-                                    <p:column sortBy="#{item.phone}" filterBy="#{item.phone}">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{myBundle.ListCustomerTitle_phone}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.phone}"/>
-                                    </p:column>
-                -->
-                <!--
-                                    <p:column sortBy="#{item.fax}" filterBy="#{item.fax}">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{myBundle.ListCustomerTitle_fax}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.fax}"/>
-                                    </p:column>
-                -->
-                <!--
-                                    <p:column sortBy="#{item.email}" filterBy="#{item.email}">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{myBundle.ListCustomerTitle_email}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.email}"/>
-                                    </p:column>
-                -->
-                <!--
-                                    <p:column sortBy="#{item.creditLimit}" filterBy="#{item.creditLimit}">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{myBundle.ListCustomerTitle_creditLimit}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.creditLimit}"/>
-                                    </p:column>
-                -->
-                <!--
-                                    <p:column sortBy="#{item.discountCode.discountCode}" filterBy="#{item.discountCode.discountCode}">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{myBundle.ListCustomerTitle_discountCode}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.discountCode.discountCode}"/>
-                                    </p:column>
-                -->
-                <!--
-                                    <p:column sortBy="#{item.zip.zipCode}" filterBy="#{item.zip.zipCode}">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{myBundle.ListCustomerTitle_zip}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.zip.zipCode}"/>
-                                    </p:column>
-                -->
+                <ui:remove>
+                    <p:column sortBy="#{item.phone}" filterBy="#{item.phone}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListCustomerTitle_phone}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.phone}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.fax}" filterBy="#{item.fax}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListCustomerTitle_fax}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fax}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.email}" filterBy="#{item.email}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListCustomerTitle_email}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.email}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.creditLimit}" filterBy="#{item.creditLimit}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListCustomerTitle_creditLimit}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.creditLimit}"/>
+                    </p:column>
+                </ui:remove>
 
             </p:dataTable>
 

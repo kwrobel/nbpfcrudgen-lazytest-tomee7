@@ -81,7 +81,11 @@ public class CustomerFacade extends AbstractFacade<Customer> {
         customer.fetch(Customer_.discountCode);
         customer.fetch(Customer_.zip);
         cq.select(customer).where(cb.equal(customer, entity));
-        return em.createQuery(cq).getSingleResult();
+        try {
+            return em.createQuery(cq).getSingleResult();
+        } catch (Exception e) {
+            return entity;
+        }
     }
     
 }

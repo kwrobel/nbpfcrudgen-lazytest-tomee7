@@ -81,7 +81,11 @@ public class ProductFacade extends AbstractFacade<Product> {
         product.fetch(Product_.manufacturerId);
         product.fetch(Product_.productCode);
         cq.select(product).where(cb.equal(product, entity));
-        return em.createQuery(cq).getSingleResult();
+        try {
+            return em.createQuery(cq).getSingleResult();
+        } catch (Exception e) {
+            return entity;
+        }
     }
     
 }
